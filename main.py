@@ -6,10 +6,10 @@ from core.viewexpense import viewing
 from utilities.settings import settings_navigation
 from db_connection.setup import create_tables
 
-def navigation(user_id):
+def navigation(user_id, name):
     while True:
         print("\n")
-        tracker_main_menu()
+        tracker_main_menu(name)
         choice = input("Enter choice: ").strip()
         if choice == "1":
             category_bundled(user_id)
@@ -21,7 +21,8 @@ def navigation(user_id):
         elif choice == "4":
             settings_navigation(user_id)
         elif choice == "0":
-            break
+            print("\nLogging out...\n")
+            acct_menu()
         else:
             print("Invalid Choice(Enter between 0-4)")
 
@@ -35,7 +36,7 @@ def main():
         print("Returning to Menu")
     else:
         user_id, name = user_details
-        navigation(user_id)
+        navigation(user_id, name)
 
 
 

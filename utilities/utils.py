@@ -4,7 +4,7 @@ import time
 import sys
 import os
 from colorama import Fore, Style, init
-import re
+import re, pwinput
 # from core.categories import category_bundled
 # from core.viewexpense import viewing
 
@@ -25,7 +25,7 @@ def dashboard(name):
 
 def password_validation():
     while True:
-        password = input("Password: ").strip()
+        password = pwinput.pwinput("Password: ", mask="*").strip()
         if len(password) < 6:
             print("Password length is minimum of 6 characters")
         else:
@@ -70,11 +70,12 @@ def pause():
     print()
 
 #MENUS
-def tracker_main_menu():
+def tracker_main_menu(name):
     os_clear()
     print(f"{'='*30}")
     print("FINANCE TRACKER MENU".center(30))
     print(f"{'='*30}")
+    print(f"Welcome {name}!\n")
     print("[1] Category Options \n[2] Expense Options\n[3] Reports/Analytics(In development)")
     print("[4] Settings \n[0] Logout")
 

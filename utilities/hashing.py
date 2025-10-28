@@ -7,3 +7,5 @@
 #     print("Match accurate!")
 # else:
 #     print("Incorrect password")
+import pwinput
+password = pwinput.pwinput("Enter password: ", mask= "*")

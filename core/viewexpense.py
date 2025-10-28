@@ -1,7 +1,7 @@
 from db_connection.database import db_init
 from colorama import Fore, Style, init
 from tabulate import tabulate
-from utilities.utils import expenses_menu,pause
+from utilities.utils import expenses_menu,pause, os_clear
 from core.addexpense import add_expenses
 import time
 
@@ -120,6 +120,7 @@ def view_action(main_query_params, join_query):
 
 def viewing(user_id):
     while True:
+        os_clear()
         expenses_menu()
         choice = input("Enter Choice: ").strip()
         print()

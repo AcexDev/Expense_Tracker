@@ -1,4 +1,4 @@
-import bcrypt, time, sys
+import bcrypt, time, sys, pwinput
 from db_connection.database import db_init
 from core.security import security_question_final_ops, set_new_password
 from utilities.utils import password_validation, os_clear, email_input
@@ -34,17 +34,24 @@ def check_email():
             return email
 
 def register_user():
-    conn = db_init()
-    cursor = conn.cursor()
-    inserts = "INSERT INTO users(name, email, password) VALUES(%s, %s, %s)"
-    name = input("Full name: ")
-    email = check_email()
-    hashed_password = password_validation()
-    cursor.execute(inserts, (name, email, hashed_password.decode()))
-    conn.commit()
-    print(f"Account successfully created for {name}")
-    post_register_ops()
-    conn.close()
+    try:
+        conn = db_init()
+        cursor = conn.cursor()
+        inserts = "INSERT INTO users(name, email, password) VALUES(%s, %s, %s)"
+        name = input("Full name: ")
+        email = check_email()
+        hashed_password = password_validation()
+        cursor.execute(inserts, (name, email, hashed_password.decode()))
+        conn.commit()
+        print(f"Account successfully created for {name}")
+        post_register_ops()
+    except Exception as e:
+        print(f"Connection error: {e}")
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 def post_register_ops():
     print(f"\n{Fore.CYAN}Set up account recovery now?\n1- Yes \n2- Skip")
@@ -58,7 +65,7 @@ def post_register_ops():
 
 def login_params(stored_pw, result, count):
     while True:
-        password = input("Password: ").strip()
+        password = pwinput.pwinput("Password: ",mask="*").strip()
         if len(password) < 6:
             print("Password length is minimum of 6 characters")
         else:
@@ -75,20 +82,28 @@ def login_params(stored_pw, result, count):
                     return None
 
 def user_login():
-    conn = db_init()
-    cursor = conn.cursor()
-    while True:
-        email = email_input()
-        cursor.execute("SELECT user_id, name, password FROM users WHERE email = %s", (email,))
-        count = 3
-        try:
-            result = cursor.fetchone()
-            stored_pw = result[2]
-            login_params(stored_pw, result, count)
-            user_id, name = result[0], result[1]
-            return user_id, name
-        except TypeError:
-            print("No account for entered email address")
+    try:
+        conn = db_init()
+        cursor = conn.cursor()
+        while True:
+            email = email_input()
+            cursor.execute("SELECT user_id, name, password FROM users WHERE email = %s", (email,))
+            count = 3
+            try:
+                result = cursor.fetchone()
+                stored_pw = result[2]
+                login_params(stored_pw, result, count)
+                user_id, name = result[0], result[1]
+                return user_id, name
+            except TypeError:
+                print("No account for entered email address")
+    except Exception as e:
+        print(f"Connection error: {e}")
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 global user_id, name
 def acct_menu():
@@ -101,11 +116,13 @@ def acct_menu():
     print("[3] Account Recovery \n[0] Exit")
     user_choice = input("> ")
     if user_choice == "1":
+        os_clear()
         print(f"{'-' * 30}")
         print("USER LOGIN".center(30))
         print(f"{'-' * 30}")
         return user_login()
     elif user_choice == "2":
+        os_clear()
         print(f"{'-'*30}")
         print("CREATE NEW ACCOUNT".center(30))
         print(f"{'-' * 30}")
@@ -114,6 +131,7 @@ def acct_menu():
         time.sleep(1)
         return user_login()
     elif user_choice == "3":
+        os_clear()
         print(f"{'-'*30}")
         print("ACCOUNT RECOVERY PORTAL".center(30))
         print(f"{'-' * 30}")

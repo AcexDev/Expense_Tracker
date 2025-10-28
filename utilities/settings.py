@@ -1,5 +1,5 @@
 from core.security import change_password
-from utilities.utils import email_input, settings_menu, pause
+from utilities.utils import email_input, settings_menu, pause, os_clear
 from db_connection.database import db_init
 from core.security import change_password
 
@@ -55,6 +55,7 @@ def reset_data(user_id):
 
 def settings_navigation(user_id):
     while True:
+        os_clear()
         settings_menu()
         choice = input("Enter Choice: ").strip()
         print()

@@ -1,6 +1,6 @@
 import mysql.connector, time
 from db_connection.database import db_init
-from utilities.utils import category_menu, pause
+from utilities.utils import category_menu, pause, os_clear
 
 
 def category_table():
@@ -82,34 +82,35 @@ def delete_category(user_id):
             print(f"{selection} successfully deleted.")
             conn.commit()
             break
-
-def delete_category1(user_id):
-    conn = db_init()
-    cursor = conn.cursor()
-    query = "SELECT name FROM categories WHERE user_id = %s"
-    cursor.execute(query, (user_id, ))
-    categories = [row[0] for row in cursor.fetchall()]
-    print("Categories:\n")
-    n = 0
-    for category in categories:
-        print(f"{n+1}- {category}")
-    while True:
-        selection = input("Input Category name you wish to delete: ").strip()
-        query = "DELETE FROM categories WHERE name = %s AND user_id =%s"
-        cursor.execute(query, (selection,))
-
-        if cursor.rowcount == 0:   #Use rowcount to determine if any row was deleted
-            print("Category doesn't exist. Retry")
-        else:
-            query = "DELETE FROM categories WHERE name = %s"
-            cursor.execute(query, (selection,))
-            print(f"{selection} successfully deleted.")
-            conn.commit()
-            break
+#
+# def delete_category1(user_id):
+#     conn = db_init()
+#     cursor = conn.cursor()
+#     query = "SELECT name FROM categories WHERE user_id = %s"
+#     cursor.execute(query, (user_id, ))
+#     categories = [row[0] for row in cursor.fetchall()]
+#     print("Categories:\n")
+#     n = 0
+#     for category in categories:
+#         print(f"{n+1}- {category}")
+#     while True:
+#         selection = input("Input Category name you wish to delete: ").strip()
+#         query = "DELETE FROM categories WHERE name = %s AND user_id =%s"
+#         cursor.execute(query, (selection,))
+#
+#         if cursor.rowcount == 0:   #Use rowcount to determine if any row was deleted
+#             print("Category doesn't exist. Retry")
+#         else:
+#             query = "DELETE FROM categories WHERE name = %s"
+#             cursor.execute(query, (selection,))
+#             print(f"{selection} successfully deleted.")
+#             conn.commit()
+#             break
 
 
 def category_bundled(user_id):
     while True:
+        os_clear()
         category_menu()
         choice = input("Enter choice: ").strip()
         print()
