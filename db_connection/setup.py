@@ -13,9 +13,9 @@ def create_tables():
             stmt = statement.strip()
             if stmt:
                 cursor.execute(stmt)
+        conn.commit()
     except Exception as e:
         print(f"Startup unsuccessful: {e}")
     finally:
-        conn.commit()
         conn.close()
     print("✅ All tables created and verified successfully.")
