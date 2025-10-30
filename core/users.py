@@ -54,12 +54,16 @@ def register_user():
             conn.close()
 
 def post_register_ops():
-    print(f"\n{Fore.CYAN}Set up account recovery now?\n1- Yes \n2- Skip")
-    choice = input("> ").strip()
-    if choice == "1":
-        security_question_final_ops()
-    elif choice == "2":
-        return
+    while True:
+        print(f"\n{Fore.CYAN}Set up account recovery now?\n1- Yes \n2- Skip")
+        choice = input("> ").strip()
+        if choice == "1":
+            security_question_final_ops()
+            break
+        elif choice == "2":
+            return
+        else:
+            print("Invalid choice!")
 
 
 
@@ -99,11 +103,6 @@ def user_login():
                 print("No account for entered email address")
     except Exception as e:
         print(f"Connection error: {e}")
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
 
 global user_id, name
 def acct_menu():
@@ -143,7 +142,6 @@ def acct_menu():
         sys.exit("Program terminated")
     else:
         print("Invalid input!")
-
 
 
 

@@ -1,12 +1,11 @@
 from db_connection.database import db_init
-import getpass, bcrypt
+import bcrypt
 import time
 import sys
 import os
 from colorama import Fore, Style, init
 import re, pwinput
-# from core.categories import category_bundled
-# from core.viewexpense import viewing
+
 
 
 # initialize colorama
@@ -29,7 +28,7 @@ def password_validation():
         if len(password) < 6:
             print("Password length is minimum of 6 characters")
         else:
-            confirm_password = input("Confirm Password: ").strip()
+            confirm_password = pwinput.pwinput("Confirm Password: ", mask="*").strip()
             if password != confirm_password:
                 print("Entries do not match! Retry")
             else:

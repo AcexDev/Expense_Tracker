@@ -2,7 +2,7 @@ import time
 from core.categories import category_bundled
 from core.users import acct_menu
 from utilities.utils import load_screen, tracker_main_menu, os_clear
-from core.viewexpense import viewing
+from core.expenses import viewing
 from utilities.settings import settings_navigation
 from db_connection.setup import create_tables
 
