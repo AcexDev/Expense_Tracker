@@ -22,25 +22,31 @@ def navigation(user_id, name):
             settings_navigation(user_id)
         elif choice == "0":
             print("\nLogging out...\n")
-            acct_menu()
+            return
         else:
             print("Invalid Choice(Enter between 0-4)")
 
-user_id = None
-def main():
-    create_tables()
-    os_clear()
-    load_screen()
-    user_details = acct_menu()
-    if not user_details:
-        print("Returning to Menu")
-    else:
-        user_id, name = user_details
-        navigation(user_id, name)
 
+
+def main():
+    while True:
+        create_tables()
+        os_clear()
+        load_screen()
+
+        user = None
+        while True:
+            user_details = acct_menu()
+            if not user_details:
+                print("Returning to Menu")
+                break
+            else:
+                user_id, name = user_details
+                user = {"id": user_id, "name": name}
+                navigation(user_id, name)
 
 
 if __name__ == "__main__":
     main()
 
-#FIX ACCOUNT RECOVERY!
+

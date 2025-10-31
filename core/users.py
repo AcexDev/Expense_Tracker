@@ -104,7 +104,7 @@ def user_login():
     except Exception as e:
         print(f"Connection error: {e}")
 
-global user_id, name
+
 def acct_menu():
     time.sleep(2.5)
     os_clear()
@@ -142,7 +142,5 @@ def acct_menu():
         sys.exit("Program terminated")
     else:
         print("Invalid input!")
-
-
 
 
